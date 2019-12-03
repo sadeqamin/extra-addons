@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record id="recurring_type_journal_entry_0" model="subscription.document">
+        <field eval="1" name="active"/>
+        <field name="model">account.move</field>
+        <field name="name">Recurring Journal Entries</field>
+    </record>
+    <record id="recurring_type_expenses_0" model="subscription.document">
+        <field eval="0" name="active"/>
+        <field name="model">hr.expense</field>
+        <field name="name">Recurring Expenses</field>
+    </record>
+    <record id="recurring_type_payment_0" model="subscription.document">
+        <field eval="0" name="active"/>
+        <field name="model">account.payment</field>
+        <field name="name">Recurring Payments</field>
+    </record>
+    <record id="recurring_type_invoices_0" model="subscription.document">
+        <field eval="0" name="active"/>
+        <field name="model">account.invoice</field>
+        <field name="name">Recurring Invoices</field>
+    </record>
+</odoo>
