@@ -2,22 +2,22 @@
 <odoo>
     <record id="recurring_type_journal_entry_0" model="subscription.document">
         <field eval="1" name="active"/>
-        <field name="model">account.move</field>
+        <field name="model" ref="account.model_account_move"/>
         <field name="name">Recurring Journal Entries</field>
     </record>
     <record id="recurring_type_expenses_0" model="subscription.document">
         <field eval="0" name="active"/>
-        <field name="model">hr.expense</field>
+        <field name="model" ref="hr_expense.model_hr_expense"/>
         <field name="name">Recurring Expenses</field>
     </record>
     <record id="recurring_type_payment_0" model="subscription.document">
         <field eval="0" name="active"/>
-        <field name="model">account.payment</field>
+        <field name="model" ref="payment.model_account_payment"/>
         <field name="name">Recurring Payments</field>
     </record>
     <record id="recurring_type_invoices_0" model="subscription.document">
         <field eval="0" name="active"/>
-        <field name="model">account.invoice</field>
+        <field name="model" ref="sale_crm.model_account_invoice"/>
         <field name="name">Recurring Invoices</field>
     </record>
 </odoo>
