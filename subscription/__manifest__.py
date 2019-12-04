@@ -17,7 +17,7 @@ e.g. To have an invoice generated automatically periodically:
     * Define a subscription whose source document is the document defined as
       above. Specify the interval information and partner to be invoiced.
     """,
-    'depends': ['base', 'account', 'hr_expense'],
+    'depends': ['base', 'account', 'hr_expense', 'base_multi_company'],
     'data': [
         'security/ir.model.access.csv',
         'views/subscription_view.xml',
