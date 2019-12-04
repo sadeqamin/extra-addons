@@ -19,6 +19,7 @@ e.g. To have an invoice generated automatically periodically:
     """,
     'depends': ['base', 'account', 'hr_expense'],
     'data': [
+        'security/subscription_security.xml',
         'security/ir.model.access.csv',
         'views/subscription_view.xml',
         'data/data.xml'
