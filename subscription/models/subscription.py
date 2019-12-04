@@ -51,18 +51,6 @@ class Subscription(models.Model):
     cron_id = fields.Many2one('ir.cron', string='Cron Job', help="Scheduler which runs on subscription", states={'running': [('readonly', True)], 'done': [('readonly', True)]})
     note = fields.Text(string='Description', help="Description or Summary of Subscription")
 
-    @api.model
-    def _auto_end(self):
-        super(Subscription, self)._auto_end()
-        # drop the FK from subscription to ir.cron, as it would cause deadlocks
-        # during cron job execution. When model_copy() tries to write() on the subscription,
-        # it has to wait for an ExclusiveLock on the cron job record, but the latter
-        # is locked by the cron system for the duration of the job!
-        # FIXME: the subscription module should be reviewed to simplify the scheduling process
-        #        and to use a unique cron job for all subscriptions, so that it never needs to
-        #        be updated during its execution.
-        self.env.cr.execute("ALTER TABLE %s DROP CONSTRAINT %s" % (self._table, '%s_cron_id_fkey' % self._table))
-
     @api.multi
     def set_process(self):
         for subscription in self:
@@ -153,6 +141,18 @@ class Subscription(models.Model):
     _name = "subscription.subscription"
     _description = "Subscription (Multi-Company)"
 
+
+    @api.model
+    def _auto_end(self):
+        super(Subscription, self)._auto_end()
+        # drop the FK from subscription to ir.cron, as it would cause deadlocks
+        # during cron job execution. When model_copy() tries to write() on the subscription,
+        # it has to wait for an ExclusiveLock on the cron job record, but the latter
+        # is locked by the cron system for the duration of the job!
+        # FIXME: the subscription module should be reviewed to simplify the scheduling process
+        #        and to use a unique cron job for all subscriptions, so that it never needs to
+        #        be updated during its execution.
+        self.env.cr.execute("ALTER TABLE %s DROP CONSTRAINT %s" % (self._table, '%s_cron_id_fkey' % self._table))
 
 class SubscriptionHistory(models.Model):
     _inherit = ["multi.company.abstract", "subscription.subscription.history"]

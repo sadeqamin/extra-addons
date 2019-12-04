@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <record id="subscription_document_ruel_01" model="ir.rule">
+        <field name="name">Subscription Document</field>
+        <field name="model_id" ref="model_subscription_document"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+    <record id="subscription_document_fields_ruel_01" model="ir.rule">
+        <field name="name">Subscription Document Fields</field>
+        <field name="model_id" ref="model_subscription_document_fields"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+    <record id="subscription_subscription_ruel_01" model="ir.rule">
+        <field name="name">Subscription Subscription</field>
+        <field name="model_id" ref="model_subscription_subscription"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+    <record id="subscription_subscription_history_ruel_01" model="ir.rule">
+        <field name="name">Subscription History</field>
+        <field name="model_id" ref="model_subscription_subscription_history"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">['|',('company_id','=',False),('company_id','child_of',[user.company_id.id])]</field>
+    </record>
+
+</data>
+</odoo>
