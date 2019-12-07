@@ -6,7 +6,7 @@
     'name': 'Recurring Transactions',
     'category': 'Extra Tools',
     'description': """
-Create recurring documents.
+Create recurring transactions - multi-company aware.
 ===========================
 
 This module allows to create new documents and add subscriptions on that document.
@@ -17,6 +17,7 @@ e.g. To have an invoice generated automatically periodically:
     * Define a subscription whose source document is the document defined as
       above. Specify the interval information and partner to be invoiced.
     """,
+    'author': "WR",
     'depends': ['base', 'account', 'hr_expense', 'base_multi_company'],
     'data': [
         'security/subscription_security.xml',
