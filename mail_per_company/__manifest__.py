@@ -7,8 +7,9 @@
     'category': 'Mail',
     'depends': ['mail'],
     'description': """
-Mail Server for Multi Companies
+Mail Server per user (Owner) - multi-company aware
     """,
+    'author': "WR",
     'data': ['mail_server_multi_company.xml'],
     'demo': [],
     'installable': True,
