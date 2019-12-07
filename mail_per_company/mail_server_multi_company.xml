@@ -2,18 +2,15 @@
 <odoo>
     <record id="mail_server_multi_company" model="ir.ui.view">
         <field name="name">mail.server.multi.company.form</field>
-        <field name="model">mail</field>
+        <field name="model">ir.mail_server</field>
         <field name="inherit_id" ref="base.ir_mail_server_form"/>
         <field name="arch" type="xml">
         <data>
-        <xpath expr="//field[@name='sequance']" position="after">
-            <field name="company_id" groups="base.group_multi_company"/>
+        <xpath expr="//field[@name='sequence']" position="after">
+            <field name="user_id"/>
         </xpath>
         </data>
         </field>
     </record>
 
-</odoo>               
-
-
-
+</odoo>
