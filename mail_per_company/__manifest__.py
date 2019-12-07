@@ -9,7 +9,7 @@
     'description': """
 Mail Server for Multi Companies
     """,
-    'data': ['mail_server_multi_company'],
+    'data': ['mail_server_multi_company.xml'],
     'demo': [],
     'installable': True,
     'auto_install': False,
