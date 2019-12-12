@@ -8,8 +8,6 @@ from odoo.addons.base.res.res_partner import WARNING_MESSAGE, WARNING_HELP
 class ProductPropertyTemplate(models.Model):
     _inherit = 'ir.mail_server'
 
-    company_id = fields.Many2one('res.company', string='Company', required=True, default=lambda self: self.env.user.company_id)
-
     @api.model
     def send_email(self, message, mail_server_id=None, smtp_server=None, smtp_port=None,
                    smtp_user=None, smtp_password=None, smtp_encryption=None, smtp_debug=False):
@@ -123,3 +121,9 @@ class ProductPropertyTemplate(models.Model):
             _logger.info(msg)
             raise MailDeliveryException(_("Mail Delivery Failed"), msg)
         return message_id
+    
+    
+class ProductPropertyTemplate(models.Model):
+    _inherit = ["multi.company.abstract", "ir.mail_server"]
+    _name = "ir.mail_server"
+    _description = "Email Server (Multi-Company)"
