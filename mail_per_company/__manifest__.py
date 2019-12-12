@@ -9,7 +9,7 @@
     'description': """
 Mail Server for Multi Companies
     """,
-    'author': "WR",
+    'author': "WR Ltd",
     'data': ['mail_server_multi_company.xml'],
     'demo': [],
     'installable': True,
