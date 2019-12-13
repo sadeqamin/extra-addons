@@ -76,7 +76,7 @@ class ProductPropertyTemplate(models.Model):
             company_id = self.env.user.company_id.id
             mail_server = self.sudo().search([('company_id', '=', self.company_id.id)], order='sequence', limit=1)
             if not mail_server:
-                mail_server = self.sudo().search([], order='sequence', limit=1)
+                mail_server = self.sudo().search([('company_id', '=', False)], order='sequence', limit=1)
 
         if mail_server:
             smtp_server = mail_server.smtp_host
