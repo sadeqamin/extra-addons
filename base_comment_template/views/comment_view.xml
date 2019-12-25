@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="view_base_comment_template_search">
+      <field name="name">base.comment.template.search</field>
+      <field name="model">base.comment.template</field>
+      <field name="arch" type="xml">
+        <search string="Comment Templates">
+          <field name="name"/>
+          <field name="position"/>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_base_comment_template_form">
+      <field name="name">base.comment.template.form</field>
+      <field name="model">base.comment.template</field>
+      <field name="arch" type="xml">
+        <form string="Comment Templates">
+          <group>
+            <field name="name"/>
+            <field name="position"/>
+            <field name="model_id" required="1" options="{'no_create': True}" domain="[('name', 'in', ['Invoice', 'Sales Order', 'Purchase Order'])]"/>
+            <field name="model" invisible="1"/>
+          </group>
+          <notebook>
+            <page string="Content">
+                <field name="text" colspan="4"/>
+            </page>
+            <page string="Variable Content">
+                <group>
+                    <field name="model_object_field"
+                            domain="[('model_id','=',model_id),('ttype','!=','one2many'),('ttype','!=','many2many')]"/>
+                    <field name="sub_object" readonly="1"/>
+                    <field name="sub_model_object_field"
+                            domain="[('model_id','=',sub_object),('ttype','!=','one2many'),('ttype','!=','many2many')]"
+                            attrs="{'readonly':[('sub_object','=',False)],'required':[('sub_object','!=',False)]}"/>
+                    <field name="null_value"/>
+                    <field name="copyvalue"/>
+                </group>
+            </page>
+        </notebook>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_base_comment_template_tree">
+      <field name="name">account.comment.template.list</field>
+      <field name="model">base.comment.template</field>
+      <field name="priority" eval="6"/>
+      <field name="arch" type="xml">
+        <tree string="Comment Templates">
+          <field name="name"/>
+          <field name="position"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_base_comment_template">
+      <field name="name">Comment Templates</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">base.comment.template</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="view_base_comment_template_tree"/>
+    </record>
+
+</odoo>
