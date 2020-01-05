@@ -13,19 +13,19 @@ class Project(models.Model):
 	_inherit = "project.project"
 
 	cmis_folder = fields.CmisFolder()
-
-    httplib2.Http = functools.partial(
+	
+	httplib2.Http = functools.partial(
         httplib2.Http,
         ca_certs=""
     )
 
 
 class ProjectTaskFolder(models.Model):
-    _inherit = "project.task"
-
-    cmis_folder = fields.CmisFolder(related='project_id.cmis_folder')
-
-    httplib2.Http = functools.partial(
+	_inherit = "project.task"
+	
+	cmis_folder = fields.CmisFolder(related='project_id.cmis_folder')
+	
+	httplib2.Http = functools.partial(
         httplib2.Http,
         ca_certs=""
     )
