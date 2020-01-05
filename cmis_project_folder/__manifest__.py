@@ -7,7 +7,7 @@
     'version': '1.0',
     'category': 'Project',
     'author': 'WR Ltd',
-    'depends': ['project_task', 'cmis_field'],
+    'depends': ['project', 'cmis_field'],
     'description': """
 Proejct Task Documents Folder
     """,
