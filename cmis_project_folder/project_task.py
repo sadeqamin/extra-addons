@@ -16,7 +16,7 @@ class Project(models.Model):
 
     httplib2.Http = functools.partial(
         httplib2.Http,
-        ca_certs="/usr/lib/python2.7/dist-packages/odoo/.local/fullchain.pem"
+        ca_certs=""
     )
 
 
@@ -27,7 +27,7 @@ class ProjectTaskFolder(models.Model):
 
     httplib2.Http = functools.partial(
         httplib2.Http,
-        ca_certs="/usr/lib/python2.7/dist-packages/odoo/.local/fullchain.pem"
+        ca_certs=""
     )
 
 
