@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project.view_task_form2_cmis" model="ir.ui.view">
+        <field name="name">CMIS Project Task Folder</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Documents" groups="base.group_user">
+                    <field name="cmis_folder"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>
+
