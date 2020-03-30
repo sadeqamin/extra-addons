@@ -3,7 +3,7 @@
 
 {
     'name': 'Account Financial Report',
-    'version': '1.0',
+    'version': '10.0',
     'category': 'Accounting',
     'summary': 'Copy account report id to journal items',
     'depends': [
