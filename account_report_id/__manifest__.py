@@ -9,7 +9,9 @@
     'depends': [
         'account',
     ],
-    'description': 'Copy account report id to journal items'
+    'description': """
+    Copy account report id to journal items
+    """,
     'data': [
     'views/account_view.xml',
     ],
