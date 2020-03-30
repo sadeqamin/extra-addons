@@ -8,7 +8,7 @@
     'author': 'WR Ltd',
     'summary': 'Copy account report id to journal items',
     'depends': [
-        'account', 'account_financial_report',
+        'account', 'account_financial_report_qweb',
     ],
     'description': """
     Copy account report id to journal items
