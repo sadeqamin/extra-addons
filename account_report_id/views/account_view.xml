@@ -10,5 +10,15 @@
             </field>
         </field>
     </record>
+    <record id="action_account_moves_all_a" model="ir.actions.act_window">
+        <field name="context">{'journal_type':'general'}</field>
+        <field name="name">Journal Items</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_id" ref="view_move_line_tree"/>
+        <field name="view_mode">tree,form,pivot,graph</field>
+    </record>
+    <menuitem action="action_account_moves_all_a" id="menu_action_account_moves_all" 
+              parent="account.menu_finance_entries" sequence="-1"
+              groups="base.group_no_one" />
   </data>
 </odoo>
