@@ -8,7 +8,7 @@
     'author': 'WR Ltd',
     'summary': 'Copy account report id to journal items',
     'depends': [
-        'account',
+        'account', 'account_reports',
     ],
     'description': """
     Copy account report id to journal items
