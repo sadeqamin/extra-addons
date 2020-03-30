@@ -5,6 +5,7 @@
     'name': 'Account Financial Report',
     'version': '10.0',
     'category': 'Accounting',
+    'author': 'WR Ltd',
     'summary': 'Copy account report id to journal items',
     'depends': [
         'account',
