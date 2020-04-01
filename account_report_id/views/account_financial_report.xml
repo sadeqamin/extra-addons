@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
             <field name="journal_id" position="after">
                 <field name="account_report_id"/>
+                <field name="balance_invert"/>
             </field>
         </field>
     </record>
@@ -23,6 +24,7 @@
         <field name="arch" type="xml">
             <field name="journal_id" position="after">
                 <field name="account_report_id"/>
+		<field name="balance_invert"/>
             </field>
         </field>
     </record>

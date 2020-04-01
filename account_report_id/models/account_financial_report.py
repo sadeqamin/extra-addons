@@ -23,5 +23,15 @@ class AccountFinancialReport(models.Model):
                                 line.account_report_id = child_report        
 
 
-    account_report_id = fields.Many2one('account.financial.report', compute='_get_account_report_id', string="Account Report", store=True, readonly=False)
+    @api.depends('debit', 'credit')
+    def _store_balance_invert(self):
+        for line in self:
+            line.balance_invert = (line.debit - line.credit) * -1
 
+
+
+
+
+    account_report_id = fields.Many2one('account.financial.report', compute='_get_account_report_id', string="Account Report", store=True, readonly=False)
+    balance_invert = fields.Monetary(compute='_store_balance_invert', store=True, currency_field='company_currency_id',
+        help="Technical field holding the abs(debit - credit) in order to open meaningful graph views from reports")
