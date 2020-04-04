@@ -20,18 +20,16 @@ class AccountFinancialReport(models.Model):
                         is_acount_type = child_report.search([('id', '=', child_report.id), ('type', '=', 'account_type')])
                         if is_acount_type:
                             if line.user_type_id in child_report.account_type_ids:
-                                line.account_report_id = child_report        
+                                line.account_report_id = child_report
 
-
-    @api.depends('debit', 'credit')
+    @api.depends('balance', 'account_report_id.sign')
     def _store_balance_invert(self):
         for line in self:
-            line.balance_invert = (line.debit - line.credit) * -1
+            report_sign = line.account_report_id.sign
+            line.balance_invert = line.balance * -report_sign
 
 
+    account_report_id = fields.Many2one('account.financial.report', compute='_get_account_report_id', string='Level-2', store=True, readonly=False, help="Main sections in financial reports")
+    balance_invert = fields.Monetary(compute='_store_balance_invert', string='Balance(G)', store=True, currency_field='company_currency_id', help="field used to store an inverted value of balance to give some meaningful analysis in Graph views")
+    account_report_parent = fields.Many2one('account.financial.report', related='account_report_id.parent_id', store=True, string="Level-1", help="Financial Statement Report")
 
-
-
-    account_report_id = fields.Many2one('account.financial.report', compute='_get_account_report_id', string="Account Report", store=True, readonly=False)
-    balance_invert = fields.Monetary(compute='_store_balance_invert', store=True, currency_field='company_currency_id',
-        help="Technical field holding the abs(debit - credit) in order to open meaningful graph views from reports")

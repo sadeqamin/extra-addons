@@ -4,29 +4,204 @@
 
 <odoo>
 
-    <record model="ir.ui.view" id="account_financial_report_id_form_view">
-        <field name="name">account.financial.report.form (in account_report_id)</field>
+        <record id="view_move_line_tree_account_report_id_pl" model="ir.ui.view">
+            <field name="name">account.move.line.tree (from account report id)</field>
+            <field name="model">account.move.line</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Profit and Loss" create="false">
+                    <field name="date"/>
+                    <field name="move_id" required="0"/>
+                    <field name="journal_id" options='{"no_open":True}'/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="statement_id" invisible="1"/>
+                    <field name="partner_id"/>
+                    <field name="account_report_id" string="Level-2"/>
+                    <field name="balance_invert"/>
+                    <field name="account_report_parent" string="Level-1"/>
+                    <field name="account_id" options='{"no_open":True}' domain="[('company_id', '=', company_id)]"/>
+                    <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                    <field name="reconciled" invisible="1"/>
+                    <field name="full_reconcile_id"/>
+                    <field name="debit" sum="Total Debit"/>
+                    <field name="credit" sum="Total Credit"/>
+                    <field name="amount_currency" readonly="True" groups="base.group_multi_currency"/>
+                    <field name="currency_id" readonly="True" invisible="1" />
+                    <field name="date_maturity"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_move_line_tree_account_report_id_bs" model="ir.ui.view">
+            <field name="name">account.move.line.tree (from account report id)</field>
+            <field name="model">account.move.line</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Balance Sheet" create="false">
+                    <field name="date"/>
+                    <field name="move_id" required="0"/>
+                    <field name="journal_id" options='{"no_open":True}'/>
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="statement_id" invisible="1"/>
+                    <field name="partner_id"/>
+                    <field name="account_report_id" string="Level-2"/>
+                    <field name="balance_invert"/>
+                    <field name="account_report_parent" string="Level-1"/>
+                    <field name="account_id" options='{"no_open":True}' domain="[('company_id', '=', company_id)]"/>
+                    <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                    <field name="reconciled" invisible="1"/>
+                    <field name="full_reconcile_id"/>
+                    <field name="debit" sum="Total Debit"/>
+                    <field name="credit" sum="Total Credit"/>
+                    <field name="amount_currency" readonly="True" groups="base.group_multi_currency"/>
+                    <field name="currency_id" readonly="True" invisible="1" />
+                    <field name="date_maturity"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="company_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+    <record id="view_account_move_line_filter1" model="ir.ui.view">
+        <field name="name">Journal Items PL (from Account report id pl)</field>
         <field name="model">account.move.line</field>
-        <field name="inherit_id" ref="account.view_move_line_form"/>
         <field name="arch" type="xml">
-            <field name="journal_id" position="after">
-                <field name="account_report_id"/>
-                <field name="balance_invert"/>
+            <search string="Profit and Loss">
+                <filter string="Current Month" name="current_month" domain="[('date','&lt;=',(datetime.date.today()+relativedelta(day=31)).strftime('%Y-%m-%d')),('date','&gt;=',(datetime.date.today()-relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="previous_month" string="Previous Month" domain="[('date','&lt;=', (context_today()-relativedelta(day=31, months=1)).strftime('%Y-%m-%d')), ('date','&gt;=',(context_today()-relativedelta(day=1,months=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="current_year" string="Current Year" domain="[('date', '&gt;=', (context_today().strftime('%Y-01-01'))), ('date', '&lt;=', (context_today().strftime('%Y-12-31')))]"/>
+                <filter name="previous_year" string="Previous Year" domain="[('date', '&gt;=', (context_today() + relativedelta(day=1, month=1, years=-1)).strftime('%Y-%m-%d')), ('date', '&lt;=', (context_today() + relativedelta(day=31, month=12, years=-1)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter string="Level-1" domain="[]" context="{'group_by':'account_report_parent'}" help="Use this filter to group by financial statement"/>
+                <filter string="Level-2" domain="[]" context="{'group_by':'account_report_id'}" help="Use this filter to group by report section"/>
+                <filter string="Level-3" domain="[]" context="{'group_by':'user_type_id'}" help="Use this filter to group by accounts types"/>
+                <filter string="Level-4" domain="[]" context="{'group_by':'account_id'}" help="Use this filter to group by accounts"/>
+                <filter string="Days" domain="[]" context="{'group_by':'date:day'}"/>
+                <filter string="Weeks" domain="[]" context="{'group_by':'date:week'}"/>
+                <filter string="Months" domain="[]" context="{'group_by':'date:month'}"/>
+                <filter string="Quarters" domain="[]" context="{'group_by':'date:quarter'}"/>
+                <filter string="Years" domain="[]" context="{'group_by':'date:year'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_account_move_line_filter2" model="ir.ui.view">
+        <field name="name">Journal Items BS (from Account report id bs)</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <search string="Balance Sheet">
+                <filter string="Today" name="today" domain="[('date','&lt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d')))]"/>
+                <filter name="end_of_last_month" string="End of Last Month" domain="[('date','&lt;=', (context_today()-relativedelta(day=31, months=1)).strftime('%Y-%m-%d'))]"/>
+                <filter name="end_of_last_year" string="End of Last Year" domain="[('date', '&lt;=', (context_today() + relativedelta(day=31, month=12, years=-1)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter string="Level-1" domain="[]" context="{'group_by':'account_report_parent'}" help="Use this filter to group by financial statement"/>
+                <filter string="Level-2" domain="[]" context="{'group_by':'account_report_id'}" help="Use this filter to group by report section"/>
+                <filter string="Level-3" domain="[]" context="{'group_by':'user_type_id'}" help="Use this filter to group by accounts types"/>
+                <filter string="Level-4" domain="[]" context="{'group_by':'account_id'}" help="Use this filter to group by accounts"/>
+                <filter string="Days" domain="[]" context="{'group_by':'date:day'}"/>
+                <filter string="Weeks" domain="[]" context="{'group_by':'date:week'}"/>
+                <filter string="Months" domain="[]" context="{'group_by':'date:month'}"/>
+                <filter string="Quarters" domain="[]" context="{'group_by':'date:quarter'}"/>
+                <filter string="Years" domain="[]" context="{'group_by':'date:year'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="account_move_line_graph_pl_account_report_id" model="ir.ui.view">
+        <field name="name">account.move.line.gaph (in account report id PL)</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <graph string="Profit and Loss" type="bar">
+                <field name="account_report_parent" type="row"/>
+                <field name="account_report_id" type="col"/>
+                <field name="balance" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_account_moves_all_a_account_report_pl" model="ir.actions.act_window">
+        <field name="name">Profit and Loss</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="context">{'group_by':['date', 'account_report_id']}</field>
+        <field name="domain">[('account_report_parent', '=', 1)]</field>
+        <field name="view_id" ref="account_report_id.account_move_line_graph_pl_account_report_id"/>
+        <field name="search_view_id" ref="account_report_id.view_account_move_line_filter1"/>
+    </record>
+    <menuitem name="Profit and Loss" action="action_account_moves_all_a_account_report_pl" id="menu_action_account_moves_all_report_id_pl" parent="account.account_reports_business_intelligence_menu" sequence="20"/>
+
+    <record id="account_move_line_graph_bs_account_report_id" model="ir.ui.view">
+        <field name="name">account.move.line.gaph (in account report id BS)</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <graph string="Balance Sheet" type="bar">
+                <field name="account_report_parent" type="row"/>
+                <field name="account_report_id" type="col"/>
+                <field name="balance" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_account_moves_all_a_account_report_bs" model="ir.actions.act_window">
+        <field name="name">Balance Sheet</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="context">{'group_by':['account_report_id']}</field>
+        <field name="domain">[('account_report_parent', '=', 4)]</field>
+        <field name="view_id" ref="account_report_id.account_move_line_graph_bs_account_report_id"/>
+        <field name="search_view_id" ref="account_report_id.view_account_move_line_filter2"/>
+    </record>
+    <menuitem name="Balance Sheet" action="action_account_moves_all_a_account_report_bs" id="menu_action_account_moves_all_report_id_bs" parent="account.account_reports_business_intelligence_menu" sequence="20"/>
+
+    <record id="account_move_line_graph_gl_account_report_id" model="ir.ui.view">
+        <field name="name">account.move.line.gaph (in account report id GL)</field>
+        <field name="model">account.move.line</field>
+        <field name="arch" type="xml">
+            <graph string="General Ledger" type="bar">
+                <field name="account_id" type="row"/>
+                <field name="balance" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_account_moves_all_a_account_report_gl" model="ir.actions.act_window">
+        <field name="name">General Ledger</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_mode">graph,pivot</field>
+        <field name="context">{'group_by':['account_id'], 'search_default_current_year':1}</field>
+        <field name="domain">[]</field>
+        <field name="view_id" ref="account_report_id.account_move_line_graph_gl_account_report_id"/>
+        <field name="search_view_id" ref="account_report_id.view_account_move_line_filter1"/>
+    </record>
+    <menuitem name="General Ledger" action="action_account_moves_all_a_account_report_gl" id="menu_action_account_moves_all_report_id_gl" parent="account.account_reports_business_intelligence_menu" sequence="20"/>
+
+
+    <record id="view_move_line_pivot" model="ir.ui.view">
+        <field name="name">account.move.line.pivot (in account_report_id)</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="/pivot" position="replace">
+                <pivot string="Accounting Analysis" disable_linking="True">
+                    <field name="account_report_id" type="row"/>
+                    <field name="date" type="col"/>
+                    <field name="balance_invert" type="measure"/>
+                </pivot>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="account_move_line_graph_date_account_report_id">
+        <field name="name">account.move.line.graph (in account_report_id)</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.account_move_line_graph_date"/>
+        <field name="arch" type="xml">
+            <field name="date" position="replace">
+                <field name="account_report_id" string="Level-2"/>
+            </field>
+            <field name="balance" position="replace">
+                <field name="balance_invert" type='measure'/>
             </field>
         </field>
     </record>
-
-
-    <record model="ir.ui.view" id="account_financial_report_id_tree_view">
-        <field name="name">account.financial.report.tree (in account_report_id)</field>
-        <field name="model">account.move.line</field>
-        <field name="inherit_id" ref="account.view_move_line_tree"/>
-        <field name="arch" type="xml">
-            <field name="journal_id" position="after">
-                <field name="account_report_id"/>
-		<field name="balance_invert"/>
-            </field>
-        </field>
-    </record>
-
 </odoo>
+
